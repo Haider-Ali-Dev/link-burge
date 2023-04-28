@@ -1,15 +1,25 @@
 import supabase from "../supabase";
 
-const getCurrentUser = () => {
-  return {
-    id: 1,
-    email: "mgargano@gmail.com",
-    name: "Mat Gargano",
-    bio: "The quick brown fox.....",
-  };
+
+
+const getUserProfile = async (user_id) => {
+
+  let { data: profile, error } = await supabase
+    .from('profile')
+    .select('*')
+    .eq('id', user_id)
+
+  return { name: profile[0].name, picture: profile[0].picture, bio: profile[0].bio }
+
+
+}
+
+const getCurrentUser = async () => {
+  const user = (await supabase.auth.getSession()).data.session.user;
+  return user;
 };
-const getLinks = async (userId) => {
-  const { data, error } = await supabase.from("links").select("*").eq("userId", userId);
+const getLinks = async (user_id) => {
+  const { data, error } = await supabase.from("links").select("*").eq("user_id", user_id);
   if (error) {
     console.error(error);
     return [];
@@ -17,10 +27,12 @@ const getLinks = async (userId) => {
   return data;
 }
 
-const createLink = async ({ userId, linkType, url, title, order }) => {
+const createLink = async ({ user_id, linkType, url, title, order }) => {
   const { data, error } = await supabase
     .from("links")
-    .insert({ userId, linkType, url, title, order });
+    .insert({ user_id, linkType, url, title, order })
+    .select("*")
+    .eq("user_id", user_id);
   if (error) {
     console.error(error);
     return false;
@@ -29,7 +41,7 @@ const createLink = async ({ userId, linkType, url, title, order }) => {
 }
 
 
-const  getLinksFiltered = async (userId, by) => {
+const getLinksFiltered = async (user_id, by) => {
   if (!["social", "link"].includes(by)) {
     return false;
   }
@@ -39,10 +51,12 @@ const  getLinksFiltered = async (userId, by) => {
     .sort((a, b) => a.order - b.order);
 };
 
-const getSocialLinks = (userId) => {
-  return getLinksFiltered(userId, "social");
+const getSocialLinks = (user_id) => {
+  return getLinksFiltered(user_id, "social");
 };
 
-const getLinksLinks = (userId) => {
-  return getLinksFiltered(userId, "link");
+const getLinksLinks = (user_id) => {
+  return getLinksFiltered(user_id, "link");
 };
+
+export { createLink, getCurrentUser, getLinks, getSocialLinks, getLinksLinks, getUserProfile }

@@ -1,27 +1,42 @@
-import facebookIcon from '../../public/facebook.svg'
-import snapchatIcon from '../../public/snapchat.svg'
-import twitterIcon from '../../public/twitter.svg'
-import instagramIcon from '../../public/instagram.svg'
 import Image from 'next/image';
-const SocialLinks = ({ }) => {
-    return (
+import facebookIcon from '../../public/facebook.svg';
+import snapchatIcon from '../../public/snapchat.svg';
+import twitterIcon from '../../public/twitter.svg';
+import instagramIcon from '../../public/instagram.svg';
 
-        <div className='flex justify-center gap-11'>
+const iconsMap = {
+  'facebook': facebookIcon,
+  'snapchat': snapchatIcon,
+  'twitter': twitterIcon,
+  'instagram': instagramIcon,
+};
 
-            <a href='https://facebook.com'>
-                <Image width={24} height={46} priority src={facebookIcon} />
-            </a>
-            <a href='https://snapchat.com'>
-                <Image width={46} height={43} priority src={snapchatIcon} />
-            </a>
-            <a href='https://twitter.com'>
-                <Image width={45} height={37} priority src={twitterIcon} />
-            </a>
-            <a href='https://instagram.com'>
-                <Image width={48} height={35} priority src={instagramIcon} />
-            </a>
-        </div>
-    )
-}
+const SocialLinks = ({ urls }) => {
+  return (
+    <div className='flex justify-center gap-11'>
+      {urls.map(({ url, title }) => {
+        const platform = Object.keys(iconsMap).find(key => url.includes(key));
+        const icon = platform ? iconsMap[platform] : null;
+
+        return (
+          <a href={url} key={url.id}>
+            {icon && (
+              <Image
+            
+                src={icon}
+                alt={title}
+                width={title === 'Facebook' ? 24 : 48}
+                height={title === 'Facebook' ? 46 : 35}
+                priority
+              />
+            )}
+          </a>
+        );
+      })}
+    </div>
+  );
+};
+
+
 
 export default SocialLinks;
