@@ -15,25 +15,38 @@ import Spinner from "../../components/Spinner";
 export default function Home({ params }) {
     const [user, setUser] = useState({})
     const router = useRouter()
+    const [isErrored, setIsErrored] = useState(false)
     const [urls, setUrls] = useState([])
     useEffect(() => {
         async function getUserAndLinks() {
-            const user = await supabase
-                .from('profile')
-                .select('*')
-                .eq('id', params.slug)
-                .single()
+            try {
+                const user = await supabase
+                    .from('profile')
+                    .select('*')
+                    .eq('id', params.slug)
+                    .single()
 
-            const links = await getLinks(params.slug)
-            console.log(user)
-            setUser(user.data)
-            setUrls(links)
+                const links = await getLinks(params.slug)
+                console.log(user)
+                setUser(user.data)
+                setUrls(links)
+            } catch (e) {
+                setIsErrored(true)
+            }
+
         }
         getUserAndLinks()
 
     }, [])
+    if (isErrored) {
+        return (
+            <main className="mt-5 w-[100%] h-[100vh] flex justify-center ">
+                <p className="text-center text-[30px] ff1">User not found.</p>
+            </main>
+        )
+    }
     return (
-        <main  className="mt-5 w-[100%] h-[100vh] flex justify-center ">
+        <main className="mt-5 w-[100%] h-[100vh] flex justify-center ">
             {user.name ?
                 <div className="flex justify-center flex-col">
                     <TopContent type={"view"} user={user} />
@@ -42,7 +55,8 @@ export default function Home({ params }) {
                 </div>
                 : <div className="flex flex-col justify-center content-center">
                     <Spinner />
-                </div>}
+                </div>
+            }
 
         </main>
     );

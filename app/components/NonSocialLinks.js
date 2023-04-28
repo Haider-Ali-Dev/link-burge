@@ -12,9 +12,6 @@ const NonSocialLinks = ({ urlData, type }) => {
         
         setLinks(data.data);
     }
-    useEffect(() => {
-        console.log(urlData, links)
-    }, []);
 
     return (
         <div className="flex justify-center">

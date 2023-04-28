@@ -7,10 +7,8 @@ const AddUrl = ({ user }) => {
 
     const addLink = async () => {
         if (url && title) {
-            // check if url includes twitter, snapchat, instagram or facebook
             const linkType = url.includes("twitter") ? "twitter" : url.includes("snapchat") ? "snapchat" : url.includes("instagram") ? "instagram" : url.includes("facebook") ? "facebook" : "link"
-            const data = await createLink({ user_id: user.id, linkType: linkType, url, title, order: 1 })
-            console.log(data)
+            await createLink({ user_id: user.id, linkType: linkType, url, title, order: 1 })
         }
 
     }

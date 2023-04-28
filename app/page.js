@@ -25,7 +25,6 @@ export default function Home() {
         setUser({ ...session.data.session.user, ...userProfile })
         console.log({ ...session.data.session.user, ...userProfile })
         const links = await getLinks(session.data.session.user.id)
-        console.log(links, "FROM PAGE")
         setUrls(links)
         return
       } else {

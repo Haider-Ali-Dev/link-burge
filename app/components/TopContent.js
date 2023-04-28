@@ -8,8 +8,6 @@ const TopContent = ({ user, type }) => {
     const [picture, setPicture] = useState(null)
     const [copiedStatus, setCopiedStatus] = useState(false)
     useEffect(() => {
-        console.log(user.picture, "user picture")
-        console.log(user.picture === null)
         if (user.picture === null) {
             setPicture("https://ukctpgutqywmhmykntls.supabase.co/storage/v1/object/public/images/image-placeholder")
         } else {
