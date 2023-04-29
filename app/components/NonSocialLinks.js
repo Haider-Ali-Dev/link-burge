@@ -1,16 +1,11 @@
 import supabase from "../supabase";
 import { useState, useEffect } from "react";
+import { deleteUrlFromLinks } from "../utils/data";
 const NonSocialLinks = ({ urlData, type }) => {
 
     const [links, setLinks] = useState(urlData);
     const deleteUrl = async (id) => {
-        const data = await supabase
-            .from("links")
-            .delete()
-            .eq("id", id)
-            .select("*");
-        
-        setLinks(data.data);
+        deleteUrlFromLinks(id, setLinks)
     }
 
     return (

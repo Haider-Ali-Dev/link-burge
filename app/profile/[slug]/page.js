@@ -11,7 +11,7 @@ import { getLinks, getUserProfile } from "../../utils/data";
 import AddUrl from "../../components/AddUrl";
 import { useRouter } from "next/navigation";
 import Spinner from "../../components/Spinner";
-
+import { getUserProfileAndLinks } from "../../utils/data";
 export default function Home({ params }) {
     const [user, setUser] = useState({})
     const router = useRouter()
@@ -19,21 +19,7 @@ export default function Home({ params }) {
     const [urls, setUrls] = useState([])
     useEffect(() => {
         async function getUserAndLinks() {
-            try {
-                const user = await supabase
-                    .from('profile')
-                    .select('*')
-                    .eq('id', params.slug)
-                    .single()
-
-                const links = await getLinks(params.slug)
-                console.log(user)
-                setUser(user.data)
-                setUrls(links)
-            } catch (e) {
-                setIsErrored(true)
-            }
-
+            getUserProfileAndLinks(params.slug, setUser, setUrls, setIsErrored)
         }
         getUserAndLinks()
 

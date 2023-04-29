@@ -4,6 +4,7 @@ import person from '../../public/person.jpg'
 import { stringify } from "postcss";
 import supabase from "../supabase";
 import { v4 } from "uuid";
+import { uploadImage } from "../utils/data";
 const TopContent = ({ user, type }) => {
     const [picture, setPicture] = useState(null)
     const [copiedStatus, setCopiedStatus] = useState(false)
@@ -18,19 +19,7 @@ const TopContent = ({ user, type }) => {
 
 
     const uploadFile = async (e) => {
-        try {
-            const file = e.target.files[0]
-            const path = `${user.id}/${v4()}`;
-            await supabase.storage.from('images').upload(path, file)
-            setPicture(`https://ukctpgutqywmhmykntls.supabase.co/storage/v1/object/public/images/${path}`)
-            await supabase.from('profile')
-                .update({ picture: path })
-                .eq('id', user.id)
-        } catch (error) {
-            console.error(error)
-        }
-
-
+        uploadImage(e.target.files[0], user, setPicture)
     }
 
     const copyToClipboard = () => {
