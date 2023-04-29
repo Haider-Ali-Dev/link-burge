@@ -34,7 +34,7 @@ const TopContent = ({ user, type }) => {
     }
 
     const copyToClipboard = () => {
-        navigator.clipboard.writeText(`http://localhost:3000/profile/@${user.id}`)
+        navigator.clipboard.writeText(`https://link-burge.vercel.app/profile/${user.id}`)
         setCopiedStatus(true)
     }
 
