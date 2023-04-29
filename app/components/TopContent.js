@@ -44,6 +44,7 @@ const TopContent = ({ user, type }) => {
             <div className="flex justify-center">
                 <div className="flex flex-col justify-center">
                     <Image
+                        alt="Profile picture"
                         className="rounded-full"
                         width={145}
                         height={145}

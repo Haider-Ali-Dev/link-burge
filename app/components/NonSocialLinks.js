@@ -26,11 +26,11 @@ const NonSocialLinks = ({ urlData, type }) => {
                         return null;
                     }
                     return (
-                        <div className="flex flex-col">
+                        <div key={url.id} className="flex flex-col">
 
                             <div className="bg-[#F2C00F] border-black box-border shadow-[4px_4px_0px_#000000] border-4 w-[311px] h-[70px]">
                                 <p className="mb-2 w-[auto] h-[auto] text-center text-[48px] ff1 font-extrabold">
-                                    <a href={url.url}>{url.title}</a>
+                                    <a  href={url.url}>{url.title}</a>
                                 </p>
 
                             </div>

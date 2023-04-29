@@ -8,7 +8,7 @@ const Footer = () => {
                 <p className="text-black ff1 text-[48px] ">
                  Copyright {new Date().getFullYear()}
                 </p>
-                <Image src={logoBlack}/>
+                <Image alt="Link Burge Logo" src={logoBlack}/>
 
             </div>
         </footer>
