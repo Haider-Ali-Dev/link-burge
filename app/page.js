@@ -18,11 +18,11 @@ export default function Home() {
   const [user, setUser] = useState({})
   const router = useRouter()
   const [urls, setUrls] = useState([])
-  
+
   useEffect(() => {
     async function getUserAndLinks() {
       const session = await supabase.auth.getSession()
-      if (session.data.session.user.id === null) {
+      if (session.data.session === null) {
         setTriggerError(true)
         return
       }
@@ -40,12 +40,14 @@ export default function Home() {
     getUserAndLinks()
 
   }, [])
-  if (triggerError === true ) {
+  if (triggerError === true) {
     return (
       <main className="mt-5 w-[100%] h-[100vh] flex justify-center ">
         <div>
           <p className="text-center text-[25px] ff1">
-            Please <Link href="/register">Register</Link> or <Link href="/signin">Sign In</Link> before accessing this page.
+            Please <span className="text-blue-800 hover:underline">
+              <Link href="/register">Register</Link></span> or <span className="text-blue-800 hover:underline">
+                <Link href="/signin">Sign In</Link></span> before accessing this page.
           </p>
         </div>
       </main>
@@ -56,12 +58,12 @@ export default function Home() {
       {user.name ?
         <div className="flex justify-center flex-col">
           <TopContent user={user} />
-          <SocialLinks  urls={urls} />
-          <NonSocialLinks type={"edit"}  urlData={urls} />
+          <SocialLinks urls={urls} />
+          <NonSocialLinks type={"edit"} urlData={urls} />
           <AddUrl user={user} />
         </div>
         : <div className="flex flex-col justify-center content-center">
-          <Spinner/>
+          <Spinner />
         </div>}
 
     </main>
